@@ -1,18 +1,19 @@
 
-const Users = require('../users/users-model');
-
+const User = require('../users/users-model');
+//  const Post = require('../posts/posts-model')
 
 function logger(req, res, next) {
   // DO YOUR MAGIC
-  console.log(req.url, req.method, Date.now())
+  console.log(`${req.url}, ${req.method},${ Date.now()}`)
   next()
 
 }
 
-function validateUserId(req, res, next) {
-  // DO YOUR MAGIC
+  function validateUserId(req, res, next) {
+    
+ // DO YOUR MAGIC
   const { id } = req.params;
-  Users.getById(id)
+  User.getById(id)
   .then(user => {
     if (user) {
       req.user = user;
@@ -28,23 +29,27 @@ function validateUserId(req, res, next) {
 
 function validateUser(req, res, next) {
   // DO YOUR MAGIC
-  if (!req.body.text || !req.body.name.trim(' ')
-  ) {
-    res.status(400).json({ message: 'missing required text'});
+  const { name } = req.body;
+  if(!name || !name.trim()){
+    res.status(400).json({message: 'Missing name'});
   } else {
+    req.name = name.trim()
     next();
   }
 }	
 
-
-
 function validatePost(req, res, next) {
+
+  const {text} = req.body
+
   // DO YOUR MAGIC
   if(!req.body.text)
   {
     res.status(400).json({ message:'missing required text field'});
+    
   }
    else {
+req.text = text.trim();
     next();
   }
 }	
