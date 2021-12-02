@@ -15,11 +15,13 @@ function logger(req, res, next) {
   const { id } = req.params;
   User.getById(id)
   .then(user => {
-    if (user) {
+    if (!user) {
+      res.status(404).json({message: `User ${user} not found`});
+      
+    } else {
       req.user = user;
       next();
-    } else {
-      res.status(404).json({ message: 'user not found'});
+      // res.status(404).json({ message: `user ${user} not found`});
     }
   })
   .catch(next);

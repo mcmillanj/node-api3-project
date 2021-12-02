@@ -42,9 +42,9 @@ router.get('/:id', validateUserId,(req, res) => {
 router.post('/',validatePost ,(req, res) => {
   // RETURN THE NEWLY CREATED USER OBJECT
   // this needs a middleware to check that the request body is valid
-  User.insert({name: req.name})
-  .then(newUser => {
-    res.status(201).json(newUser)
+  Post.insert({name: req.name})
+  .then(post => {
+    res.status(201).json(post)
 }).catch(error => {
   console.log(error)
   res.status(500).json({ message:  "missing required text field"})
@@ -68,13 +68,13 @@ router.put('/:id', validateUserId, validateUser,(req, res) => {
     res.status(200).json(updatedUser);
   
 }else {
-    res.status(404).json({ message: 'The user could not be found' })
+    res.status(400).json({ message: 'The user could not be found' })
 }
   })
   .catch(err => {
     console.log(err)
-      //res.status(500).json({message: 'message: error.messageThere was an error updating the user'});
-      res.status(500).json({ message:' error.message'});
+      res.status(500).json({message: 'error.message'});
+      // res.status(500).json({ message:' error.message'});
   });
 	
 })
@@ -89,7 +89,7 @@ router.delete('/:id',validateUserId, (req, res) => {
   })
   .catch(err => {
     console.log(err)
-    res.status(500).json({message: 'There was an error deleting the user'})
+    res.status(500).json({message: ' message: error.message'})
   })
 });	
 
